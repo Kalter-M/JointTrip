@@ -5,7 +5,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-# путещественник - водитель/пассажир
+# путешественник - водитель/пассажир
 class Traveler(models.Model):
     # user_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, default=1, on_delete=models.CASCADE)
@@ -24,7 +24,7 @@ class Traveler(models.Model):
 class Trip(models.Model):
     trip_id = models.AutoField(primary_key=True)
 
-    owner = models.ForeignKey(Traveler, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Traveler, on_delete=models.CASCADE, related_name='trip_owner')
 
     start_time = models.DateTimeField()
     duration = models.IntegerField(default=0)
@@ -49,8 +49,7 @@ class TripPassenger(models.Model):
 
 # отзыв
 class Review(models.Model):
-    from_whom = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    to_whom = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    mark = models.IntegerField(validators={MinValueValidator(0),
-                                           MaxValueValidator(5)})
+    from_whom = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='from_whom_review')
+    to_whom = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='to_whom_review')
+    mark = models.IntegerField(default=0)
     comment = models.CharField(max_length=255)
