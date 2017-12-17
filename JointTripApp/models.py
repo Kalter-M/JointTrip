@@ -5,7 +5,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-# путещественник - водитель/пассажир
+# путешественник - водитель/пассажир
 class Traveler(models.Model):
     # user_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, default=1, on_delete=models.CASCADE)
